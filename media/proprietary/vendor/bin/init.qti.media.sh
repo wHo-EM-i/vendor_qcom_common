@@ -2,10 +2,6 @@
 #==============================================================================
 #       init.qti.media.sh
 #
-# Copyright (c) 2020-2021, Qualcomm Technologies, Inc.
-# All Rights Reserved.
-# Confidential and Proprietary - Qualcomm Technologies, Inc.
-#
 # Copyright (c) 2020, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -40,51 +36,23 @@ else
     soc_hwid=`cat /sys/devices/system/soc/soc0/id` 2> /dev/null
 fi
 
-target_qssi=`getprop vendor.media.target.qssi`
 target=`getprop ro.board.platform`
 case "$target" in
-    "lahaina")
-        case "$soc_hwid" in
-            475|515)
-                setprop vendor.media.target_variant "_yupik_v0"
-                setprop vendor.netflix.bsp_rev ""
-                sku_ver=`cat /sys/devices/platform/soc/aa00000.qcom,vidc/sku_version` 2> /dev/null
-                if [ $sku_ver -eq 1 ]; then
-                    setprop vendor.media.target_variant "_yupik_v1"
-                fi
-                ;;
-            450)
-                setprop vendor.media.target_variant "_shima_v3"
-                setprop vendor.netflix.bsp_rev "Q875-32774-1"
-                sku_ver=`cat /sys/devices/platform/soc/aa00000.qcom,vidc/sku_version` 2> /dev/null
-                if [ $sku_ver -eq 1 ]; then
-                    setprop vendor.media.target_variant "_shima_v1"
-                elif [ $sku_ver -eq 2 ]; then
-                    setprop vendor.media.target_variant "_shima_v2"
-                fi
-                ;;
-            *)
-                if [ $target_qssi == "true" ]; then
-                    setprop vendor.media.target_variant "_lahaina_vendor"
-                else
-                    setprop vendor.media.target_variant "_lahaina"
-                fi
-                setprop vendor.netflix.bsp_rev "Q875-32408-1"
-                ;;
-        esac
-        ;;
-    "holi")
-        case "$soc_hwid" in
-            454|472)
-                setprop vendor.netflix.bsp_rev "Q4350-32962-1"
-                ;;
-        esac
-        setprop vendor.media.target_variant "_holi"
-        ;;
-    "msmnile")
-        setprop vendor.media.target_variant "_msmnile"
-        ;;
-    "sm6150")
-        setprop vendor.media.target_variant "_sm6150"
-        ;;
+   "bengal")
+       case "$soc_hwid" in
+           441|471)
+               setprop vendor.media.target.version 2
+               sku_ver=`cat /sys/devices/platform/soc/5a00000.qcom,vidc1/sku_version` 2> /dev/null
+               if [ $sku_ver -eq 1 ]; then
+                   setprop vendor.media.target.version 3
+               fi
+               ;;
+           *)
+               sku_ver=`cat /sys/devices/platform/soc/5a00000.qcom,vidc/sku_version` 2> /dev/null
+               if [ $sku_ver -eq 1 ]; then
+                   setprop vendor.media.target.version 1
+               fi
+               ;;
+       esac
+       ;;
 esac
