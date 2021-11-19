@@ -156,7 +156,6 @@ PRODUCT_PACKAGES += \
     SimContact \
     SimSettings \
     atfwd \
-    datastatusnotification \
     embms \
     imssettings \
     remoteSimLockAuthentication \
@@ -225,4 +224,3 @@ PRODUCT_PACKAGES += \
     vendor.qti.ims.rcsconfig-V2.0-java \
     vendor.qti.ims.rcsconfig-V2.1-java \
     vendor.qti.latency-V2.0-java
-
