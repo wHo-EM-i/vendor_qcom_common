@@ -1,6 +1,10 @@
 #==============================================================================
 #       init.qti.media.rc
 #
+# Copyright (c) 2020 Qualcomm Technologies, Inc.
+# All Rights Reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
 # Copyright (c) 2020, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -37,7 +41,13 @@ service qti-media /vendor/bin/init.qti.media.sh
     seclabel u:r:vendor_qti_media:s0
 
 on early-init
+    setprop vendor.media.target.qssi ${vendor.sys.media.target.qssi}
+    setprop vendor.media.system.build_codename ${ro.build.version.release_or_codename}
     start qti-media
 
 on post-fs-data
-    setprop vendor.sys.media.target.version ${vendor.media.target.version}
+    setprop ro.media.xml_variant.codecs ${vendor.media.target_variant}
+    setprop ro.media.xml_variant.codecs_performance ${vendor.media.target_variant}
+
+on property:vendor.netflix.bsp_rev=*
+    setprop ro.netflix.bsp_rev ${vendor.netflix.bsp_rev}
